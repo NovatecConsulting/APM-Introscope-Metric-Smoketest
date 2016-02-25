@@ -1,0 +1,10 @@
+timeOffset: 4
+testLevel: "LEVEL_0"
+reportDirectory: "test-results"
+JDBCUser: "Admin"
+JDBCPassword: ""
+JDBCHost: "localhost"
+JDBCPort: "9999"
+
+htmlReportEnabled: true
+

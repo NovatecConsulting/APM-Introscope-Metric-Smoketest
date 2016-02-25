@@ -1,0 +1,75 @@
+## This macro formats the results (whether passed, skipped or failed) of the test
+## methods in a single class for inclusion in the HTML report.  It assumes that
+## the results for the class are in a variable called $classResults.
+## scope variable that is used to assign unique identifiers to divs.
+
+#foreach ( $testResult in $classResults)
+<tr>
+    #set( $query = $testResult.getAttribute('metricQueryResultSet') )
+    <td>
+        #if ($query)
+            <p><b>Query:</b>$query.getDefinition().getFullQualifiedName()</p>
+            #if ($testResult.throwable)
+                #set($color = "FF0000")
+                #if($testResult.status == 3) ##Error
+                    #set($color = "#ffaa00")
+                #end
+                <p><b>Message: </b><font color="$color">$testResult.throwable.getMessage()</font color></p>
+            #end
+            #if ($query.hasResults())
+                <a href="javascript:toggleElement('result-$id', 'block')"
+                   title="$messages.getString("clickToExpandCollapse")"><b>Show Query Results</b></a><br/>
+                <div class="stackTrace" id="result-$id">
+                    #set ($idx = 1)
+                    <table style="width:100%">
+                        <style>
+                            th, td {
+                                text-align: left;
+                            }
+                        </style>
+                        <tr>
+                            <th text-align="left" style="width:90%">Metric</th>
+                            <th style="width=10%">Value</th>
+                        </tr>
+                        #foreach($queryResult in $query.getResults())
+                            <tr>
+                                <td>$queryResult.getFullQualifiedMetricName()</td>
+                                <td>$queryResult.getValue()</td>
+                            </tr>
+                            #set ($idx = $idx + 1)
+                        #end
+                    </table>
+                </div>
+            #end
+            #set ($id = $id + 1)
+        #else
+
+        ###Here we know that the test failed due to internal errors instead of validation errors!!!
+
+            <p><b><font color="#FF0000">$testResult.throwable.getMessage()</font color></b></p>
+            #if ($testResult.throwable)
+                <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString(
+                    "clickToExpandCollapse")"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br/>
+                <div class="stackTrace" id="exception-$id">
+                    #foreach ($element in $testResult.throwable.stackTrace)
+                        $utils.escapeHTMLString( $element.toString() )<br/>
+                    #end
+                    #set ($causes = $utils.getCauses($testResult.throwable))
+                    #foreach ($throwable in $causes)
+                        #set ($id = $id + 1)
+                        <b>$messages.getString("causedBy"): </b> <a
+                            href="javascript:toggleElement('exception-$id', 'block')"
+                            title="Click to expand/collapse">$utils.escapeHTMLString( $throwable.toString() )</a><br/>
+                        <div class="stackTrace" id="exception-$id">
+                            #foreach ($element in $throwable.stackTrace)
+                                $utils.escapeHTMLString($element.toString())<br/>
+                            #end
+                        </div>
+                    #end
+                </div>
+            #end
+            #set ($id = $id + 1)
+        #end
+    </td>
+</tr>
+#end
