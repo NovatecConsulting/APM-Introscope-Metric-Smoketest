@@ -31,37 +31,37 @@ import java.sql.SQLException;
  *
  * @author Claudio Waldvogel
  */
-public class MetricQueryServiceException extends RuntimeException {
+public class MetricDataCollectorException extends RuntimeException {
 
     /**
-     * Create a new  MetricQueryServiceException.
+     * Create a new  MetricDataCollectorException.
      *
      * @param message
      *         The exception text
      */
-    public MetricQueryServiceException(String message) {
+    public MetricDataCollectorException(String message) {
         super(message);
     }
 
     /**
-     * Create a new  MetricQueryServiceException.
+     * Create a new  MetricDataCollectorException.
      *
      * @param cause
      *         The root cause
      */
-    public MetricQueryServiceException(SQLException cause) {
+    public MetricDataCollectorException(SQLException cause) {
         super(cause);
     }
 
     /**
-     * Create a new  MetricQueryServiceException.
+     * Create a new  MetricDataCollectorException.
      *
      * @param message
      *         The error message
      * @param cause
      *         The root cause
      */
-    public MetricQueryServiceException(String message, Throwable cause) {
+    public MetricDataCollectorException(String message, Throwable cause) {
         super(message, cause);
     }
 

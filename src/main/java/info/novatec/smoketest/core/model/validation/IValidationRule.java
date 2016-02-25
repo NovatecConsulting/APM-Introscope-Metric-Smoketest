@@ -31,7 +31,7 @@ import info.novatec.smoketest.core.model.MetricTestResultSet;
 import info.novatec.smoketest.core.service.query.IMetricDataCollector;
 
 /**
- * Defines a rule to validate the results gathered by the IMetricQueryService. A validation rule is one part of a {@link
+ * Defines a rule to validate the results gathered by the IMetricDataCollector. A validation rule is one part of a {@link
  * MetricTest}.
  *
  * @param <IN>
@@ -45,7 +45,7 @@ import info.novatec.smoketest.core.service.query.IMetricDataCollector;
 public interface IValidationRule<IN extends IMetricDefinition, OUT extends IMetricTestResult> {
 
     /**
-     * Applies the rule to the {@link MetricTestResultSet} provided from the IMetricQueryService.
+     * Applies the rule to the {@link MetricTestResultSet} provided from the {@link IMetricDataCollector}.
      *
      * @param result
      *         The MetricTestResultSet

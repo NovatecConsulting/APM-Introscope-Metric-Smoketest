@@ -5,7 +5,7 @@
 
 #foreach ( $testResult in $classResults)
 <tr>
-    #set( $query = $testResult.getAttribute('metricQueryResultSet') )
+    #set( $query = $testResult.getAttribute('metricTestResultSet') )
     <td>
         #if ($query)
             <p><b>Query:</b>$query.getDefinition().getFullQualifiedName()</p>

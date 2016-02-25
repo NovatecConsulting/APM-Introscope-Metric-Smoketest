@@ -166,7 +166,7 @@ public class MyIntroscopeSmokeTest extends SmokeTest<MyIntroscopeSmokeTest.MyCon
     public static class CheckMetrics extends BaseTest<IntroscopeMetric, IntroscopeMetricTestResult> {
 
         @Override
-        protected Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> getMetricQueryDefinitions() {
+        protected Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> getMetricTests() {
             return new IntroscopeMetricTestBuilder()
                     .single("path|subPath", "Metric1")
                     .single("path|subPath", "Metric2", TestLevel.LEVEL_0, ValidationRules.expectedOccurrences(1))

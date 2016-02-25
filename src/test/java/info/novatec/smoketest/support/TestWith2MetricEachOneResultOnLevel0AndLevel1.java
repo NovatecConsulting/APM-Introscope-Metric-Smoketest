@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class TestWith2MetricEachOneResultOnLevel0AndLevel1 extends BaseTest<DummyMetric, DummyMetricResult> {
     @Override
-    protected Set<MetricTest<DummyMetric, DummyMetricResult>> getMetricQueryDefinitions() {
+    protected Set<MetricTest<DummyMetric, DummyMetricResult>> getMetricTests() {
         Set<MetricTest<DummyMetric, DummyMetricResult>> set = Sets.newHashSet();
         set.add(new MetricTest<>(new DummyMetric("Metric1"), TestLevel.LEVEL_0));
         set.add(new MetricTest<>(new DummyMetric("Metric2"), TestLevel.LEVEL_1));

@@ -41,7 +41,7 @@ import info.novatec.smoketest.core.model.MetricTestResultSet;
 public interface IMetricDataCollector<IN extends IMetricDefinition, OUT extends IMetricTestResult> {
 
     /**
-     * Start initializing the IMetricQueryService.
+     * Start initializing the IMetricDataCollector.
      */
     default void initialize() {
         //No-OP
@@ -54,10 +54,10 @@ public interface IMetricDataCollector<IN extends IMetricDefinition, OUT extends 
      *         The {@link IMetricDefinition} to be queried
      * @return A {@link MetricTestResultSet} containing all results related to this IMetricDefinition. If the service
      * could not fetch any results it returns an empty MetricTestResultSet. Null must not be returned.
-     * @throws MetricQueryServiceException
+     * @throws MetricDataCollectorException
      *         something fails
      */
-    MetricTestResultSet<IN, OUT> query(final IN definition) throws MetricQueryServiceException;
+    MetricTestResultSet<IN, OUT> query(final IN definition) throws MetricDataCollectorException;
 
 
 }

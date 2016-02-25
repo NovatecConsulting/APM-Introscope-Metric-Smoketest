@@ -16,7 +16,7 @@ import java.util.Set;
 public class IntroscopeDummyTest extends BaseTest<IntroscopeMetric, IntroscopeMetricTestResult> {
 
     @Override
-    protected Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> getMetricQueryDefinitions() {
+    protected Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> getMetricTests() {
         return new IntroscopeMetricTestBuilder()
                 .single("/resource/path", "Metric1")
                 .single("/resource/path", "Metric2")

@@ -46,12 +46,12 @@ public class NoOpDataCollector implements IMetricDataCollector<IMetricDefinition
      * No-Args Constructor.
      */
     public NoOpDataCollector() {
-        LOGGER.warn("No IMetricQueryService defined. Using empty default implementation!");
+        LOGGER.warn("No IMetricDataCollector defined. Using empty default implementation!");
     }
 
     @Override
     public MetricTestResultSet<IMetricDefinition, IMetricTestResult> query(IMetricDefinition definition)
-            throws MetricQueryServiceException {
+            throws MetricDataCollectorException {
         //Simply return MetricTestResultSet with the definition
         return new MetricTestResultSet<>(definition);
     }

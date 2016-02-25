@@ -66,7 +66,7 @@ public class IntroscopeMetricTestResult implements IMetricTestResult {
     }
 
     /**
-     * Create a new MetricQueryResult.
+     * Create a new IntroscopeMetricTestResult.
      *
      * @param query
      *         The query which produced this result

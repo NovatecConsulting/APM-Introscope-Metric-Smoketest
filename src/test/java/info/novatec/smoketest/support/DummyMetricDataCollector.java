@@ -2,7 +2,7 @@ package info.novatec.smoketest.support;
 
 import info.novatec.smoketest.core.model.MetricTestResultSet;
 import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.MetricQueryServiceException;
+import info.novatec.smoketest.core.service.query.MetricDataCollectorException;
 
 /**
  * @author Claudio Waldvogel (claudio.waldvogel@novatec-gmbh.de)
@@ -11,7 +11,7 @@ public class DummyMetricDataCollector implements IMetricDataCollector<DummyMetri
 
     @Override
     public MetricTestResultSet<DummyMetric, DummyMetricResult> query(DummyMetric definition) throws
-            MetricQueryServiceException {
+            MetricDataCollectorException {
         MetricTestResultSet<DummyMetric, DummyMetricResult> resultSet = new MetricTestResultSet<>(definition);
         resultSet.addResult(new DummyMetricResult(definition.getFullQualifiedName()));
 

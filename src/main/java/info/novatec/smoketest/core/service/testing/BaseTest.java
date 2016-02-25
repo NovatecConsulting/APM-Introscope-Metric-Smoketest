@@ -32,7 +32,7 @@ import info.novatec.smoketest.core.model.validation.IValidationRule;
 import info.novatec.smoketest.core.model.validation.ValidationException;
 import info.novatec.smoketest.core.model.validation.ValidationResult;
 import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.MetricQueryServiceException;
+import info.novatec.smoketest.core.service.query.MetricDataCollectorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -66,7 +66,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
      * Constant to access the {@link info.novatec.smoketest.core.model.MetricTestResultSet} within the attributes of a
      * the TestNG reporter.
      */
-    private static final String METRIC_QUERY_RESULT_SET_REPORTER_ENTRY = "metricQueryResultSet";
+    private static final String METRIC_QUERY_RESULT_SET_REPORTER_ENTRY = "metricTestResultSet";
 
     /**
      * Constant defines the name of the TestNG data provider.
@@ -139,7 +139,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
             MetricTestResultSet<IN, OUT> resultSet;
             try {
                 resultSet = queryService.query(metricTest.getMetric());
-            } catch (MetricQueryServiceException ex) {
+            } catch (MetricDataCollectorException ex) {
                 //Since we are running as TestNG Test this exceptions won't be logged.
                 //This is only visible in the test result html output. But if no HTML reporter us defined
                 //this exception is swallowed.
@@ -186,7 +186,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
      */
     @DataProvider(name = DATA_PROVIDER_NAME)
     protected Object[][] dataProvider(final ITestContext testContext) {
-        return toDataProvider(getMetricQueryDefinitions());
+        return toDataProvider(getMetricTests());
     }
 
     /**
@@ -195,7 +195,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
      *
      * @return Set of MetricTest
      */
-    protected abstract Set<MetricTest<IN, OUT>> getMetricQueryDefinitions();
+    protected abstract Set<MetricTest<IN, OUT>> getMetricTests();
 
     /**
      * Utility method to transform a set of {@link MetricTest}s into an Object array. This is needed to

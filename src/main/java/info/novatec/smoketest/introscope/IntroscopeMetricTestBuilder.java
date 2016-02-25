@@ -70,7 +70,7 @@ public class IntroscopeMetricTestBuilder {
     /**
      * This method creates a new Builder to define a new metric.
      *
-     * @return The internal Builder instance related to this MetricQueryDefinition
+     * @return The internal Builder instance related to this MetricTest
      * @see IntroscopeMetricTestBuilder#entry(String)
      */
     public Builder entry() {
@@ -81,7 +81,7 @@ public class IntroscopeMetricTestBuilder {
      * This method creates a new Builder to define a new metric.
      *
      * @param entryPoint
-     *         Parameter is used to defined the entry point for all MetricQueryDefinition related to this builder. The
+     *         Parameter is used to defined the entry point for all MetricTest related to this builder. The
      *         purpose of the entryPoint is to simplify several metrics which are located underneath the the same node
      *         e.g. for the metrics <ul> <li>Root|Node1|Node2|Version|App1:Version</li>
      *         <li>Root|Node1|Node2|Version|App2:Version</li> </ul> Root|Node1|Node2|Version can be defined as entry and
@@ -162,8 +162,8 @@ public class IntroscopeMetricTestBuilder {
      * Method starts building the {@link MetricTest}s.
      *
      * @param agentExpression
-     *         The expression of the agent this MetricQueryDefinition should be queried.
-     * @return Set of MetricQueryDefinition
+     *         The expression of the agent this MetricTest should be queried.
+     * @return Set of MetricTests
      */
     public Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> build(String agentExpression) {
         for (Builder builder : builders) {
@@ -259,7 +259,7 @@ public class IntroscopeMetricTestBuilder {
         }
 
         /**
-         * Define the level of this MetricQueryDefinitions.
+         * Define the level of this MetricTest.
          *
          * @param level
          *         The level of the current executing test

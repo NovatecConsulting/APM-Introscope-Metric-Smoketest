@@ -26,7 +26,7 @@ package info.novatec.smoketest.introscope;
 
 import info.novatec.smoketest.core.model.MetricTestResultSet;
 import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.MetricQueryServiceException;
+import info.novatec.smoketest.core.service.query.MetricDataCollectorException;
 import info.novatec.smoketest.core.service.time.ITimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +93,7 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
     //-------------------------------------------------------------
 
     /**
-     * Create a new MetricQueryService.
+     * Create a new IntroscopeDataCollector.
      *
      * @param configuration
      *         The {@link IntroscopeConfiguration}
@@ -108,13 +108,13 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
     }
 
     //-------------------------------------------------------------
-    // Interface Implementation: IMetricQueryService
+    // Interface Implementation: IMetricDataCollector
     //-------------------------------------------------------------
 
     @PostConstruct
     @Override
     public void initialize() {
-        log.info("Start initializing the MetricQueryService...");
+        log.info("Start initializing the IntroscopeDataCollector...");
         try {
             log.info("Loading JDBC Driver: {}", configuration.getJDBCDriver());
             //Ensure that the introscope jdbc driver is loaded
@@ -133,9 +133,9 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
             connection = DriverManager.getConnection(connectionURL);
             statement = connection.createStatement();
         } catch (ClassNotFoundException e) {
-            throw new MetricQueryServiceException("Failed to load JDBC Driver: " + configuration.getJDBCDriver(), e);
+            throw new MetricDataCollectorException("Failed to load JDBC Driver: " + configuration.getJDBCDriver(), e);
         } catch (SQLException e) {
-            throw new MetricQueryServiceException("Connection failed!", e);
+            throw new MetricDataCollectorException("Connection failed!", e);
         }
         initialized = true;
         log.info("IntroscopeQueryService initialized!");
@@ -143,7 +143,7 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
 
     @Override
     public MetricTestResultSet<IntroscopeMetric, IntroscopeMetricTestResult> query(IntroscopeMetric definition)
-            throws MetricQueryServiceException {
+            throws MetricDataCollectorException {
         if (!initialized) {
             //Fail if service is not yet initialized
             throw new RuntimeException("Not initialized!");
@@ -152,12 +152,12 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
         log.debug(queryString);
 
         try (ResultSet resultSet = statement.executeQuery(queryString)) {
-            MetricTestResultSet<IntroscopeMetric, IntroscopeMetricTestResult> metricQueryResultSet =
+            MetricTestResultSet<IntroscopeMetric, IntroscopeMetricTestResult> metricTestResultSet =
                     new MetricTestResultSet<>(definition);
-            //In this loop each row of the result set is transformed into a MetricQueryResult
+            //In this loop each row of the result set is transformed into a MetricTestResultSet
             while (resultSet.next()) {
                 dumpResult(resultSet);
-                metricQueryResultSet.addResult(
+                metricTestResultSet.addResult(
                         new IntroscopeMetricTestResult(
                                 queryString,
                                 resultSet.getString(RS_ENTRY_AGENT_NAME),
@@ -167,9 +167,9 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
                         )
                 );
             }
-            return metricQueryResultSet;
+            return metricTestResultSet;
         } catch (SQLException e) {
-            throw new MetricQueryServiceException("Failed to execute query: " + queryString, e);
+            throw new MetricDataCollectorException("Failed to execute query: " + queryString, e);
         }
     }
 
@@ -206,7 +206,7 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
             }
             log.debug(builder.toString());
         } catch (SQLException e) {
-            throw new MetricQueryServiceException(e);
+            throw new MetricDataCollectorException(e);
         }
     }
 
