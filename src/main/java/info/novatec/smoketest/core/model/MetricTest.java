@@ -28,7 +28,6 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import info.novatec.smoketest.core.model.validation.IValidationRule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,8 +74,7 @@ public class MetricTest<IN extends IMetricDefinition, OUT extends IMetricTestRes
      */
     public MetricTest(final IN metric,
                       final TestLevel level) {
-        this(metric, level, new ArrayList<IValidationRule<IN, OUT>>() {
-        });
+        this(metric, level, Lists.newArrayList());
     }
 
     /**

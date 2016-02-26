@@ -32,8 +32,8 @@ import info.novatec.smoketest.core.application.Environment;
 import info.novatec.smoketest.core.application.Setup;
 import info.novatec.smoketest.core.model.IMetricDefinition;
 import info.novatec.smoketest.core.model.IMetricTestResult;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.NoOpDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.NoOpDataCollector;
 import info.novatec.smoketest.core.service.testing.ITestExecutionService;
 import info.novatec.smoketest.core.service.testing.TestExecutionService;
 import info.novatec.smoketest.core.service.time.ITimeService;
@@ -80,7 +80,7 @@ public class CoreBundle extends Bundle<SmokeTestConfiguration> {
             bind(ITestExecutionService.class).to(TestExecutionService.class).in(Singleton.class);
             bind(ITimeService.class).to(TimeService.class).in(Singleton.class);
 
-            //bind NoOp default query service
+            //bind NoOp default collect service
             bind(new TypeLiteral<IMetricDataCollector<IMetricDefinition, IMetricTestResult>>() {
             }).to(NoOpDataCollector.class);
         }

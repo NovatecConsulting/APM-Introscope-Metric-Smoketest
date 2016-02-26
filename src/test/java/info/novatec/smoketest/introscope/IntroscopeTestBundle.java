@@ -7,13 +7,14 @@ import info.novatec.smoketest.core.application.Environment;
 import info.novatec.smoketest.core.model.IMetricDefinition;
 import info.novatec.smoketest.core.model.IMetricTestResult;
 import info.novatec.smoketest.core.model.MetricTestResultSet;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
 
 /**
+ * Test bundle to mock the IMetricDataCollector
+ *
  * @author Claudio Waldvogel
  */
 public class IntroscopeTestBundle extends Bundle<IntroscopeConfiguration> {
-
 
     @Override
     public void configure(Environment.Builder<IntroscopeConfiguration> builder) {
@@ -33,7 +34,7 @@ public class IntroscopeTestBundle extends Bundle<IntroscopeConfiguration> {
             @Override
             @SuppressWarnings("unchecked")
             protected void configure() {
-                //We have to bind the IntroscopeQueryService to two TypeLiterals to ensure a proper
+                //We have to bind the dummy collecotr to two TypeLiterals to ensure a proper
                 //injection on various levels.
                 bind(new TypeLiteral<IMetricDataCollector<IMetricDefinition, IMetricTestResult>>() {
                 }).toInstance((IMetricDataCollector) service);

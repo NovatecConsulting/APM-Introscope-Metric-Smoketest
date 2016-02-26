@@ -35,9 +35,12 @@ import javax.inject.Inject;
 /**
  * <p> Abstract base class for smoke tests. This class ensures a proper instantiation of {@link Setup} and {@link
  * Environment}. Additionally, the environment is run and all provided tests are executed with the {@link
- * ITestExecutionService}. SmokeTest is itself a Bundle and added to Setup as root bundle, thus subclasses can override
- * methods of {@link Bundle} and add additional functionality. </p> <p> The example demonstrates how an exemplary smoke
- * test is created. The kind of {@link Configuration} is provided as type parameter to the SmokeTest class. As can be
+ * ITestExecutionService}.<br>
+ * SmokeTest is itself a Bundle and added to Setup as root bundle, thus subclasses can  override methods of
+ * {@link Bundle} and add additional functionality. </p>
+ * <p>
+ * The example demonstrates how an  exemplary smoke test is created.
+ * The kind of {@link Configuration} is provided as type parameter to the SmokeTest class. As can be
  * seen the example adds a {@link CoreBundle} and a {@link info.novatec.smoketest.introscope.IntroscopeBundle} in the
  * {@link Bundle#setup(Setup.Builder)} method. The first provides services which are needed by for a proper {@link
  * Environment} setup. The latter adds introscope specific implementations for all components which are only defined but

@@ -50,9 +50,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * <p> A Setup is the core of each application. The purpose of the Setup is to collect and prepare all required bundles
- * of this application. Also it is the initial point to define essential parts components to properer setup and
- * initialize the IConfiguration. </p> <p> To ease the creation of a Setup it provides an internal Builder class. The
- * builder provides a speaking API and encapsulates all required logic to prepare bundles and create configuration.
+ * of this application. Also it is the initial point to define essential components to properer setup and
+ * initialize the IConfiguration. </p>
+ * <p> To ease the creation of a Setup it provides an internal Builder class. The
+ * builder provides a fluent API and encapsulates all required logic to prepare bundles and create configuration.
  * </p>
  *
  * @param <T>
@@ -115,7 +116,8 @@ public class Setup<T extends Configuration> {
         this.configuration = configuration;
         this.namespace = namespace;
         this.objectMapper = objectMapper;
-        this.bundles = bundles;
+        //Set of bundles is now fixed
+        this.bundles = ImmutableList.copyOf(bundles);
     }
 
     /**
@@ -124,7 +126,7 @@ public class Setup<T extends Configuration> {
      * @return {@link #bundles}
      */
     public List<Bundle<T>> getBundles() {
-        return ImmutableList.copyOf(bundles);
+        return bundles;
     }
 
     /**
@@ -251,7 +253,7 @@ public class Setup<T extends Configuration> {
 
 
         /**
-         * Adds a already constructed {@link Configuration} to the Setup. Be aware that if a configuration is provided
+         * Adds an already constructed {@link Configuration} to the Setup. Be aware that if a configuration is provided
          * the IConfigurationFactory and (if available) the configurationClazz are omitted.
          *
          * @param configuration

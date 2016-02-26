@@ -31,7 +31,7 @@ import info.novatec.smoketest.core.application.configuration.Configuration;
  * added to {@link Setup}. While bootstrapping an application a bundle runs through three phases. </p> <p> In the first
  * phase the bundle has the possibility to modify the Setup which is in a later step used to create the final
  * environment. This means core components can be provided, exchanged to influence the further environment creation.
- * Also the CLI can be enhanced to have additional parameters this bundle might utilize. The modifications are done via
+ * Also the CLI can be enhanced to have additional parameters this bundle might utilize. The modifications are done in
  * {@link Bundle#setup(Setup.Builder)}. </p> <p> In the second phase the bundle has the chance to modify the environment
  * itself. This means that this bundle can add tests, provide/override service as Guice Module. At this point the
  * configuration is available and might be used for further processing. </p> <p> In the last phase the bundle is run. At
@@ -84,7 +84,7 @@ public abstract class Bundle<T extends Configuration> {
     }
 
     /**
-     * In the last phase of a bundle'S life cycle it is actually executed. At this point all services are available. It
+     * In the last phase of a bundle's life cycle it is actually executed. At this point all services are available. It
      * this bundles needs any additional services, they are now accessible from the Environment or, if defined, the
      * corresponding members are already injected.
      *

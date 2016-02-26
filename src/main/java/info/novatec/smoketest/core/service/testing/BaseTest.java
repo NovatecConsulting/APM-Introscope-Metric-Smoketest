@@ -31,8 +31,8 @@ import info.novatec.smoketest.core.model.MetricTest;
 import info.novatec.smoketest.core.model.validation.IValidationRule;
 import info.novatec.smoketest.core.model.validation.ValidationException;
 import info.novatec.smoketest.core.model.validation.ValidationResult;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.MetricDataCollectorException;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.MetricDataCollectorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
@@ -66,7 +66,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
      * Constant to access the {@link info.novatec.smoketest.core.model.MetricTestResultSet} within the attributes of a
      * the TestNG reporter.
      */
-    private static final String METRIC_QUERY_RESULT_SET_REPORTER_ENTRY = "metricTestResultSet";
+    private static final String METRIC_TEST_RESULT_SET_REPORTER_ENTRY = "metricTestResultSet";
 
     /**
      * Constant defines the name of the TestNG data provider.
@@ -74,10 +74,10 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
     private static final String DATA_PROVIDER_NAME = "smokeTestData";
 
     /**
-     * The {@link IMetricDataCollector} which is used to query for metrics.
+     * The {@link IMetricDataCollector} which is used to collect for metrics.
      */
     @Inject
-    private IMetricDataCollector<IN, OUT> queryService;
+    private IMetricDataCollector<IN, OUT> collector;
 
     /**
      * The {@link Configuration} for this test. This is at least of type {@link SmokeTestConfiguration}
@@ -119,8 +119,8 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
      * <p> The method first check if the {@link MetricTest} has the correct level {@link
      * MetricTest#getLevel()} to be executed by invoking {@link #isInScope(TestLevel)}. If not, the test is
      * marked as skipped by throwing a SkipException.<br> If it is in scope the {@link IMetricDataCollector} is utilized
-     * to query the required information.<br> As last step the provided {@link IValidationRule}s are used to validate
-     * the query results. </p>
+     * to collect the required information.<br> As last step the provided {@link IValidationRule}s are used to validate
+     * the collect results. </p>
      *
      * @param metricTest
      *         The {@link MetricTest} to be executed
@@ -135,10 +135,10 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
     @Test(dataProvider = DATA_PROVIDER_NAME)
     public final void testMetric(final MetricTest<IN, OUT> metricTest) {
         if (isInScope(metricTest.getLevel())) {
-            //Query for metric results
             MetricTestResultSet<IN, OUT> resultSet;
             try {
-                resultSet = queryService.query(metricTest.getMetric());
+                //Start the data collection
+                resultSet = collector.collect(metricTest.getMetric());
             } catch (MetricDataCollectorException ex) {
                 //Since we are running as TestNG Test this exceptions won't be logged.
                 //This is only visible in the test result html output. But if no HTML reporter us defined
@@ -149,7 +149,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
                 throw ex;
             }
             //Provide the result set as attribute to the testNG reporter to make it available to reporters
-            Reporter.getCurrentTestResult().setAttribute(METRIC_QUERY_RESULT_SET_REPORTER_ENTRY, resultSet);
+            Reporter.getCurrentTestResult().setAttribute(METRIC_TEST_RESULT_SET_REPORTER_ENTRY, resultSet);
             //Next step is to validate the result set,
             if (metricTest.getValidations() != null && metricTest.getValidations().size() > 0) {
                 for (IValidationRule<IN, OUT> rule : metricTest.getValidations()) {
@@ -166,7 +166,7 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
             }
         } else {
             //Although out of scope, provide an empty result set to the reporter.
-            Reporter.getCurrentTestResult().setAttribute(METRIC_QUERY_RESULT_SET_REPORTER_ENTRY,
+            Reporter.getCurrentTestResult().setAttribute(METRIC_TEST_RESULT_SET_REPORTER_ENTRY,
                     new MetricTestResultSet<>(metricTest.getMetric()));
             LOGGER.info("Skipped: \"{}\"", metricTest.getMetric()
                     .getFullQualifiedName());
@@ -208,10 +208,10 @@ public abstract class BaseTest<IN extends IMetricDefinition, OUT extends IMetric
     protected Object[][] toDataProvider(final Set<MetricTest<IN, OUT>> metricTests) {
         int counter = 0;
         Object[][] dataProvider = new Object[metricTests.size()][];
-        LOGGER.debug("{} will query: ", getTestName());
-        for (MetricTest query : metricTests) {
-            LOGGER.debug(query.getMetric().getFullQualifiedName());
-            dataProvider[counter++] = new Object[]{query};
+        LOGGER.debug("{} will collect: ", getTestName());
+        for (MetricTest test : metricTests) {
+            LOGGER.debug(test.getMetric().getFullQualifiedName());
+            dataProvider[counter++] = new Object[]{test};
         }
         return dataProvider;
     }

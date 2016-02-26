@@ -22,47 +22,37 @@
  * SOFTWARE.
  */
 
-package info.novatec.smoketest.core.service.query;
+package info.novatec.smoketest.core.service.collector;
 
-import java.sql.SQLException;
+import info.novatec.smoketest.core.model.IMetricDefinition;
+import info.novatec.smoketest.core.model.IMetricTestResult;
+import info.novatec.smoketest.core.model.MetricTestResultSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Exception foo all errors occurring while querying a metric.
+ * No operation default implementation of {@link IMetricDataCollector}.
  *
- * @author Claudio Waldvogel
+ * @author Claudio Waldvogel (claudio.waldvogel@novatec-gmbh.de)
  */
-public class MetricDataCollectorException extends RuntimeException {
+public class NoOpDataCollector implements IMetricDataCollector<IMetricDefinition, IMetricTestResult> {
 
     /**
-     * Create a new  MetricDataCollectorException.
-     *
-     * @param message
-     *         The exception text
+     * Thd slf4j logger.
      */
-    public MetricDataCollectorException(String message) {
-        super(message);
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(NoOpDataCollector.class);
 
     /**
-     * Create a new  MetricDataCollectorException.
-     *
-     * @param cause
-     *         The root cause
+     * No-Args Constructor.
      */
-    public MetricDataCollectorException(SQLException cause) {
-        super(cause);
+    public NoOpDataCollector() {
+        LOGGER.warn("No IMetricDataCollector defined. Using empty default implementation!");
     }
 
-    /**
-     * Create a new  MetricDataCollectorException.
-     *
-     * @param message
-     *         The error message
-     * @param cause
-     *         The root cause
-     */
-    public MetricDataCollectorException(String message, Throwable cause) {
-        super(message, cause);
+    @Override
+    public MetricTestResultSet<IMetricDefinition, IMetricTestResult> collect(IMetricDefinition definition)
+            throws MetricDataCollectorException {
+        //Simply return MetricTestResultSet with the definition
+        return new MetricTestResultSet<>(definition);
     }
-
 }

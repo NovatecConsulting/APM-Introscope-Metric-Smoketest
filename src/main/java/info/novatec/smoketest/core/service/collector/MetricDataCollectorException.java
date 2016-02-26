@@ -22,37 +22,47 @@
  * SOFTWARE.
  */
 
-package info.novatec.smoketest.core.service.query;
+package info.novatec.smoketest.core.service.collector;
 
-import info.novatec.smoketest.core.model.IMetricDefinition;
-import info.novatec.smoketest.core.model.IMetricTestResult;
-import info.novatec.smoketest.core.model.MetricTestResultSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.sql.SQLException;
 
 /**
- * No operation default implementation of {@link IMetricDataCollector}.
+ * Exception foo all errors occurring while collecting metric data.
  *
- * @author Claudio Waldvogel (claudio.waldvogel@novatec-gmbh.de)
+ * @author Claudio Waldvogel
  */
-public class NoOpDataCollector implements IMetricDataCollector<IMetricDefinition, IMetricTestResult> {
+public class MetricDataCollectorException extends RuntimeException {
 
     /**
-     * Thd slf4j logger.
+     * Create a new  MetricDataCollectorException.
+     *
+     * @param message
+     *         The exception text
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(NoOpDataCollector.class);
+    public MetricDataCollectorException(String message) {
+        super(message);
+    }
 
     /**
-     * No-Args Constructor.
+     * Create a new  MetricDataCollectorException.
+     *
+     * @param cause
+     *         The root cause
      */
-    public NoOpDataCollector() {
-        LOGGER.warn("No IMetricDataCollector defined. Using empty default implementation!");
+    public MetricDataCollectorException(SQLException cause) {
+        super(cause);
     }
 
-    @Override
-    public MetricTestResultSet<IMetricDefinition, IMetricTestResult> query(IMetricDefinition definition)
-            throws MetricDataCollectorException {
-        //Simply return MetricTestResultSet with the definition
-        return new MetricTestResultSet<>(definition);
+    /**
+     * Create a new  MetricDataCollectorException.
+     *
+     * @param message
+     *         The error message
+     * @param cause
+     *         The root cause
+     */
+    public MetricDataCollectorException(String message, Throwable cause) {
+        super(message, cause);
     }
+
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package example;
+package examples.introscope;
 
 
 import info.novatec.smoketest.core.CoreBundle;
@@ -37,8 +37,8 @@ import info.novatec.smoketest.core.service.testing.ITestExecutionService;
 import info.novatec.smoketest.introscope.IntroscopeBundle;
 import info.novatec.smoketest.introscope.IntroscopeConfiguration;
 import info.novatec.smoketest.introscope.IntroscopeMetric;
-import info.novatec.smoketest.introscope.IntroscopeMetricTestResult;
 import info.novatec.smoketest.introscope.IntroscopeMetricTestBuilder;
+import info.novatec.smoketest.introscope.IntroscopeMetricTestResult;
 import org.testng.annotations.Test;
 import org.uncommons.reportng.HTMLReporter;
 
@@ -58,7 +58,7 @@ import java.util.Set;
  * This class defines the {@link info.novatec.smoketest.core.application.configuration.Configuration} object
  * which is related to this smoke test.<br>
  * {@link MyConfiguration} extends {@link IntroscopeConfiguration} to enable the Introscope functionality.
- * It is mandatory to provide this class as generic type parameter to to {@link SmokeTest}:
+ * It is mandatory to provide this class as generic type parameter to {@link SmokeTest}:
  * <pre>
  *     {@code
  *      class MyIntroscopeSmokeTest extends SmokeTest<MyConfiguration>
@@ -66,10 +66,23 @@ import java.util.Set;
  * </pre>
  * <li>CheckMetrics</li>
  * This class defines the test to be executed by the smoke test.
- * <p>
  * </ul>
+ * </p>
+ * <p>
+ * The smoke test is run as follows (-c and -o command line arguments are default properties provided
+ * by {@link CoreBundle}):
+ * <p>
+ * <pre>
+ * //Set configuration file
+ * <code>java -cp apm smoke-test-with-introscope-jars.jar MyIntroscopeSmokeTest -c myConfigurationFile</code>
  *
+ * //Override configuration values
+ * <code>java -cp apm smoke-test-with-introscope-jars.jar MyIntroscopeSmokeTest -o JDBCUser=other htmlReportEnable=true </code>
  *
+ * //Set configuration file and override configuration values
+ * <code>java -cp apm smoke-test-with-introscope-jars.jar MyIntroscopeSmokeTest -c myConfigurationFile -o  JDBCPort=1234  htmlReportEnable=true</code>
+ * </pre>
+ * </p>
  *
  * @author Claudio Waldvogel
  */
@@ -168,7 +181,7 @@ public class MyIntroscopeSmokeTest extends SmokeTest<MyIntroscopeSmokeTest.MyCon
         @Override
         protected Set<MetricTest<IntroscopeMetric, IntroscopeMetricTestResult>> getMetricTests() {
             return new IntroscopeMetricTestBuilder()
-                    .single("path|subPath", "Metric1")
+                    .single("path|subPath", "Metric1", TestLevel.LEVEL_0, ValidationRules.notZero())
                     .single("path|subPath", "Metric2", TestLevel.LEVEL_0, ValidationRules.expectedOccurrences(1))
                     .single("path|subPath", "OutOfScope", TestLevel.LEVEL_1)
                     .build("MyAgent");

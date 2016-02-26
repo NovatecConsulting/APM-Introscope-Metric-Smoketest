@@ -35,7 +35,7 @@ import info.novatec.smoketest.core.model.IMetricTestResult;
 public class IntroscopeMetricTestResult implements IMetricTestResult {
 
     /**
-     * The initial executed query.
+     * The initial executed collect.
      */
     private String query;
 
@@ -69,7 +69,7 @@ public class IntroscopeMetricTestResult implements IMetricTestResult {
      * Create a new IntroscopeMetricTestResult.
      *
      * @param query
-     *         The query which produced this result
+     *         The collect which produced this result
      */
     public IntroscopeMetricTestResult(String query) {
         this.query = query;
@@ -79,7 +79,7 @@ public class IntroscopeMetricTestResult implements IMetricTestResult {
      * Creates a new IntroscopeMetricTestResult.
      *
      * @param query
-     *         The related query string
+     *         The related collect string
      * @param agentName
      *         The name of the agent
      * @param resource

@@ -25,8 +25,8 @@
 package info.novatec.smoketest.introscope;
 
 import info.novatec.smoketest.core.model.MetricTestResultSet;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
-import info.novatec.smoketest.core.service.query.MetricDataCollectorException;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.MetricDataCollectorException;
 import info.novatec.smoketest.core.service.time.ITimeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,13 +41,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.CONNECTION_TEMPLATE;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.PASSWORD_MARKER;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.QUERY_TEMPLATE;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.RS_ENTRY_AGENT_NAME;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.RS_ENTRY_METRIC_NAME;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.RS_ENTRY_RESOURCE;
-import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeQueryConstants.RS_ENTRY_VALUE;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.CONNECTION_TEMPLATE;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.PASSWORD_MARKER;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.JDBC_TEMPLATE;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.RS_ENTRY_AGENT_NAME;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.RS_ENTRY_METRIC_NAME;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.RS_ENTRY_RESOURCE;
+import static info.novatec.smoketest.introscope.IntroscopeDataCollector.IntroscopeDataCollectorConstants.RS_ENTRY_VALUE;
 
 
 /**
@@ -138,11 +138,11 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
             throw new MetricDataCollectorException("Connection failed!", e);
         }
         initialized = true;
-        log.info("IntroscopeQueryService initialized!");
+        log.info("IntroscopeDataCollector initialized!");
     }
 
     @Override
-    public MetricTestResultSet<IntroscopeMetric, IntroscopeMetricTestResult> query(IntroscopeMetric definition)
+    public MetricTestResultSet<IntroscopeMetric, IntroscopeMetricTestResult> collect(IntroscopeMetric definition)
             throws MetricDataCollectorException {
         if (!initialized) {
             //Fail if service is not yet initialized
@@ -169,19 +169,19 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
             }
             return metricTestResultSet;
         } catch (SQLException e) {
-            throw new MetricDataCollectorException("Failed to execute query: " + queryString, e);
+            throw new MetricDataCollectorException("Failed to execute collect: " + queryString, e);
         }
     }
 
     /**
-     * Builds the sql query string depending on the given {@link IntroscopeMetric}.
+     * Builds the sql collect string depending on the given {@link IntroscopeMetric}.
      *
      * @param definition
      *         The {@link IntroscopeMetric}
-     * @return The query string
+     * @return The collect string
      */
     private String buildQueryString(final IntroscopeMetric definition) {
-        return String.format(QUERY_TEMPLATE,
+        return String.format(JDBC_TEMPLATE,
                 definition.getAgentExpression(),
                 IntroscopeUtils.generateMetricPath(definition.getResourceExpression(),
                         definition.getMetricExpression()),
@@ -214,12 +214,12 @@ public class IntroscopeDataCollector implements IMetricDataCollector<IntroscopeM
     /**
      * Internal class holding constants.
      */
-    public static class IntroscopeQueryConstants {
+    public static class IntroscopeDataCollectorConstants {
 
         /**
          * Defines the template for all Introscope JDBC queries.
          */
-        public static final String QUERY_TEMPLATE = "select * from metric_data where agent='%s' and metric='%s' and "
+        public static final String JDBC_TEMPLATE = "select * from metric_data where agent='%s' and metric='%s' and "
                 + "timestamp between '%s' and '%s' aggregateall";
 
         /**

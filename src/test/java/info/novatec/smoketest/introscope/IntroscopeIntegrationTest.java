@@ -8,7 +8,7 @@ import info.novatec.smoketest.core.SmokeTestConfiguration;
 import info.novatec.smoketest.core.application.Bundle;
 import info.novatec.smoketest.core.application.Environment;
 import info.novatec.smoketest.core.application.Setup;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
 import info.novatec.smoketest.core.service.testing.ITestExecutionService;
 import info.novatec.smoketest.core.service.testing.report.StatisticsReporter;
 import info.novatec.smoketest.support.IntroscopeDummyTest;
@@ -60,17 +60,14 @@ public class IntroscopeIntegrationTest {
         assertEquals(configuration.getJDBCDateFormat(), "EEE MMM dd HH:mm:ss zzz yyyy");
 
 
-        IMetricDataCollector<IntroscopeMetric, IntroscopeMetricTestResult> queryService =
+        IMetricDataCollector<IntroscopeMetric, IntroscopeMetricTestResult> collectorService =
                 environment.getInjector().getInstance(
                         Key.get(new TypeLiteral<IMetricDataCollector<IntroscopeMetric, IntroscopeMetricTestResult>>() {
                         })
                 );
 
-        assertNotNull(queryService);
-
+        assertNotNull(collectorService);
         environment.run();
-
-
     }
 
 

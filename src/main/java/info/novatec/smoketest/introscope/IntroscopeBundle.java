@@ -30,7 +30,7 @@ import info.novatec.smoketest.core.application.Bundle;
 import info.novatec.smoketest.core.application.Environment;
 import info.novatec.smoketest.core.model.IMetricDefinition;
 import info.novatec.smoketest.core.model.IMetricTestResult;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
 
 /**
  * Bundle implementation to provide Introscope specific implementations.
@@ -46,7 +46,7 @@ public class IntroscopeBundle extends Bundle<IntroscopeConfiguration> {
             @Override
             @SuppressWarnings("unchecked")
             protected void configure() {
-                //We have to bind the IntroscopeQueryService to two TypeLiterals to ensure a proper
+                //We have to bind the IntroscopeDataCollector to two TypeLiterals to ensure a proper
                 //injection on various levels.
                 bind(new TypeLiteral<IMetricDataCollector<IMetricDefinition, IMetricTestResult>>() {
                 }).to((Class) IntroscopeDataCollector.class);

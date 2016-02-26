@@ -25,7 +25,7 @@
 package info.novatec.smoketest.core.model;
 
 /**
- * Defines the result of an query for a certain metric. Analog to {@link IMetricDefinition} each supported technology
+ * Defines the result of an collect for a certain metric. Analog to {@link IMetricDefinition} each supported technology
  * needs to provide its own implementation of the interface.
  *
  * @author Claudio Waldvogel (claudio.waldvogel@novatec-gmbh.de)

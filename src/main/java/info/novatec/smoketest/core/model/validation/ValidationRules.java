@@ -61,8 +61,7 @@ public final class ValidationRules {
             if (expectedOccurrences == actualOccurrences) {
                 return ValidationResult.valid();
             }
-            return ValidationResult.invalid(msg(String.format(template, expectedOccurrences, actualOccurrences))
-            );
+            return invalid(String.format(template, expectedOccurrences, actualOccurrences));
         };
     }
 
@@ -79,13 +78,13 @@ public final class ValidationRules {
             if (!(results.size() == 0)) {
                 for (IMetricTestResult result : results) {
                     if (Strings.isNullOrEmpty(result.getValue())) {
-                        return ValidationResult.invalid(msg(template, resultSet.getDefinition().
-                                getFullQualifiedName()));
+                        return invalid(template, resultSet.getDefinition().
+                                getFullQualifiedName());
                     }
                 }
                 return ValidationResult.valid();
             }
-            return ValidationResult.invalid(msg(template, resultSet.getDefinition().getFullQualifiedName()));
+            return invalid(template, resultSet.getDefinition().getFullQualifiedName());
         };
     }
 
@@ -100,17 +99,16 @@ public final class ValidationRules {
                 for (IMetricTestResult result : results) {
                     try {
                         if (Double.valueOf(result.getValue()) == 0) {
-                            return ValidationResult.invalid(msg(template, resultSet.getDefinition()
-                                    .getFullQualifiedName()));
+                            return invalid(template, resultSet.getDefinition().getFullQualifiedName());
                         }
                     } catch (NumberFormatException ex) {
-                        return ValidationResult.invalid(msg(template, resultSet.getDefinition()
-                                .getFullQualifiedName()));
+                        return invalid(template, resultSet.getDefinition()
+                                .getFullQualifiedName());
                     }
                 }
                 return ValidationResult.valid();
             }
-            return ValidationResult.invalid(msg(template, resultSet.getDefinition().getFullQualifiedName()));
+            return invalid(template, resultSet.getDefinition().getFullQualifiedName());
         };
     }
 

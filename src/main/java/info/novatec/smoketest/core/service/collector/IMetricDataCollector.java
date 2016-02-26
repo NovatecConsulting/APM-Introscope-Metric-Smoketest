@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package info.novatec.smoketest.core.service.query;
+package info.novatec.smoketest.core.service.collector;
 
 
 import info.novatec.smoketest.core.model.IMetricDefinition;
@@ -30,7 +30,7 @@ import info.novatec.smoketest.core.model.IMetricTestResult;
 import info.novatec.smoketest.core.model.MetricTestResultSet;
 
 /**
- * The service interface to query information about metrics.
+ * The service interface to collect information about metrics.
  *
  * @param <IN>
  *         The {@link IMetricDefinition} type to be queried
@@ -48,7 +48,7 @@ public interface IMetricDataCollector<IN extends IMetricDefinition, OUT extends 
     }
 
     /**
-     * Executes a query for the provided IMetricDefinition. The actual execution is completely implementation depended.
+     * Executes a collect for the provided IMetricDefinition. The actual execution is completely implementation depended.
      *
      * @param definition
      *         The {@link IMetricDefinition} to be queried
@@ -57,7 +57,7 @@ public interface IMetricDataCollector<IN extends IMetricDefinition, OUT extends 
      * @throws MetricDataCollectorException
      *         something fails
      */
-    MetricTestResultSet<IN, OUT> query(final IN definition) throws MetricDataCollectorException;
+    MetricTestResultSet<IN, OUT> collect(final IN definition) throws MetricDataCollectorException;
 
 
 }

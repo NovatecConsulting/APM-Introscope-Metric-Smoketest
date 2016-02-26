@@ -6,7 +6,7 @@ import com.google.inject.TypeLiteral;
 import info.novatec.smoketest.core.SmokeTestConfiguration;
 import info.novatec.smoketest.core.application.Bundle;
 import info.novatec.smoketest.core.application.Environment;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
 
 /**
  * @author Claudio Waldvogel (claudio.waldvogel@novatec-gmbh.de)
@@ -18,11 +18,11 @@ public class DummyTechnologyBundle<T extends SmokeTestConfiguration> extends Bun
             @Override
             protected void configure() {
 
-                TypeLiteral<IMetricDataCollector<DummyMetric, DummyMetricResult>> queryServiceTypeLiteral
+                TypeLiteral<IMetricDataCollector<DummyMetric, DummyMetricResult>> collectorServiceTypeLiteral
                         = new TypeLiteral<IMetricDataCollector<DummyMetric, DummyMetricResult>>() {
                 };
 
-                bind(queryServiceTypeLiteral).to(DummyMetricDataCollector.class).in(Singleton.class);
+                bind(collectorServiceTypeLiteral).to(DummyMetricDataCollector.class).in(Singleton.class);
             }
         });
     }

@@ -81,18 +81,18 @@ public class Environment<T extends Configuration> {
     }
 
     /**
-     * Gets {@link #setup#getName()}.
+     * Gets the name of the environment.
      *
-     * @return {@link #setup#getName()()}
+     * @return The name of the environment
      */
     public String getName() {
         return setup.getName();
     }
 
     /**
-     * Gets {@link #setup#getConfiguration()}.
+     * Gets the configuration.
      *
-     * @return {@link #setup#getConfiguration()}
+     * @return The {@link Configuration}
      */
     public T getConfiguration() {
         return setup.getConfiguration();

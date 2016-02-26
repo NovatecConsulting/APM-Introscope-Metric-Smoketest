@@ -28,7 +28,7 @@ import info.novatec.smoketest.core.model.IMetricDefinition;
 import info.novatec.smoketest.core.model.IMetricTestResult;
 import info.novatec.smoketest.core.model.MetricTest;
 import info.novatec.smoketest.core.model.MetricTestResultSet;
-import info.novatec.smoketest.core.service.query.IMetricDataCollector;
+import info.novatec.smoketest.core.service.collector.IMetricDataCollector;
 
 /**
  * Defines a rule to validate the results gathered by the IMetricDataCollector. A validation rule is one part of a {@link
