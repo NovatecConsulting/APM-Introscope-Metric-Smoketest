@@ -29,6 +29,8 @@ import info.novatec.smoketest.core.model.TestLevel;
 import info.novatec.smoketest.core.model.TimeRange;
 import info.novatec.smoketest.core.util.Configurations;
 
+import java.util.Locale;
+
 /**
  * The default configuration object for smoke tests.
  *
@@ -66,6 +68,12 @@ public class SmokeTestConfiguration extends Configuration {
     private String dateTimePattern = "yyyyMMdd'T'HHmm";
 
     /**
+     * The locale to bes used.
+     * Defaults to Locale.getDefault()
+     */
+    private Locale locale = Locale.getDefault();
+
+    /**
      * No-Args Constructor.
      */
     public SmokeTestConfiguration() {
@@ -88,8 +96,7 @@ public class SmokeTestConfiguration extends Configuration {
     /**
      * Sets {@link #testLevel}.
      *
-     * @param testLevel
-     *         New value for {@link #testLevel}
+     * @param testLevel New value for {@link #testLevel}
      */
     public void setTestLevel(TestLevel testLevel) {
         this.testLevel = testLevel;
@@ -107,8 +114,7 @@ public class SmokeTestConfiguration extends Configuration {
     /**
      * Sets {@link #timeRange}.
      *
-     * @param timeRange
-     *         New value for {@link #timeRange}
+     * @param timeRange New value for {@link #timeRange}
      */
     public void setTimeRange(TimeRange timeRange) {
         this.timeRange = timeRange;
@@ -126,11 +132,27 @@ public class SmokeTestConfiguration extends Configuration {
     /**
      * Sets {@link #timeOffset}.
      *
-     * @param timeOffset
-     *         New value for {@link #timeOffset}
+     * @param timeOffset New value for {@link #timeOffset}
      */
     public void setTimeOffset(int timeOffset) {
         this.timeOffset = timeOffset;
+    }
+
+    /**
+     * The current locale
+     * @return The active locale
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Set the current locale
+     *
+     * @param locale The locale to be used.
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     /**
@@ -145,8 +167,7 @@ public class SmokeTestConfiguration extends Configuration {
     /**
      * Sets {@link #reportDirectory}.
      *
-     * @param reportDirectory
-     *         New value for {@link #reportDirectory}
+     * @param reportDirectory New value for {@link #reportDirectory}
      */
     public void setReportDirectory(String reportDirectory) {
         this.reportDirectory = reportDirectory;
@@ -164,8 +185,7 @@ public class SmokeTestConfiguration extends Configuration {
     /**
      * Sets {@link #dateTimePattern}.
      *
-     * @param dateTimePattern
-     *         New value for {@link #dateTimePattern}
+     * @param dateTimePattern New value for {@link #dateTimePattern}
      */
     public void setDateTimePattern(String dateTimePattern) {
         this.dateTimePattern = dateTimePattern;

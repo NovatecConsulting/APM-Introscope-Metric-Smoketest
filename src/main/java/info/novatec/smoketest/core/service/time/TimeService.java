@@ -62,8 +62,7 @@ public class TimeService implements ITimeService {
     /**
      * Create a new TimeService instance.
      *
-     * @param configuration
-     *         The IConfigurationService
+     * @param configuration The IConfigurationService
      */
     @Inject
     public TimeService(final SmokeTestConfiguration configuration) {
@@ -110,13 +109,12 @@ public class TimeService implements ITimeService {
     /**
      * Gets a DateTimeFormatter instance reflecting the dataFormat provided as input.
      *
-     * @param dateFormat
-     *         The output date format
+     * @param dateFormat The output date format
      * @return A DateTimeFormatter instance.
      */
     private DateTimeFormatter getFormat(String dateFormat) {
         if (!formatCache.containsKey(dateFormat)) {
-            formatCache.put(dateFormat, DateTimeFormatter.ofPattern(dateFormat));
+            formatCache.put(dateFormat, DateTimeFormatter.ofPattern(dateFormat, configuration.getLocale()));
         }
         return formatCache.get(dateFormat);
     }
@@ -124,8 +122,7 @@ public class TimeService implements ITimeService {
     /**
      * Method initializes the TimeRange.
      *
-     * @param timeRange
-     *         The source TimeRange
+     * @param timeRange The source TimeRange
      * @return A valid TimeRange
      */
     private TimeRange initTimeRange(final TimeRange timeRange) {

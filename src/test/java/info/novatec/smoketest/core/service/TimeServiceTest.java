@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Locale;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
@@ -81,8 +82,10 @@ public class TimeServiceTest {
 
     @Test
     public void testFormat() {
-        ZonedDateTime date = ZonedDateTime.of(2016, 2, 2, 0, 0, 1, 0, ZoneId.systemDefault());
-        TimeService timeService = new TimeService(new SmokeTestConfiguration());
+        ZonedDateTime date = ZonedDateTime.of(2016, 2, 2, 0, 0, 1, 0, ZoneId.of("Europe/Berlin"));
+        SmokeTestConfiguration cfg = new SmokeTestConfiguration();
+        cfg.setLocale(Locale.GERMAN);
+        TimeService timeService = new TimeService(cfg);
         assertEquals(timeService.format("EEE MMM dd HH:mm:ss zzz yyyy", date), "Di Feb 02 00:00:01 MEZ 2016");
         assertEquals(timeService.format("yyyy MM dd", date), "2016 02 02");
         assertEquals(timeService.format("yyyy/MM/dd", date), "2016/02/02");
